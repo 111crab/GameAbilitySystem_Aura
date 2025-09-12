@@ -23,7 +23,7 @@ public:
 	
 protected:
 	virtual void BeginPlay() override;
-	virtual void SetupInputComponent() override;
+	virtual void SetupInputComponent() override; //自动被调用，而且是虚函数，会根据运行情况选择。这里被重写
 	
 private:
 	
