@@ -88,9 +88,12 @@ void AAuraPlayerController::BeginPlay()
 	check(AuraContext);
 	//获取本地玩家子系统
 	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	check(Subsystem);
-	//添加IMC并且设置优先级，0最高。
-	Subsystem->AddMappingContext(AuraContext,0);
+	if (Subsystem)
+	{
+		//添加IMC并且设置优先级，0最高。
+		Subsystem->AddMappingContext(AuraContext,0);
+	}
+	
 	
 	
 	//------光标设置------
