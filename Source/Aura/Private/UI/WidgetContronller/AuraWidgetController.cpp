@@ -12,3 +12,7 @@ void UAuraWidgetController::SetWidgetControllerParams(const FWidgetControllerPar
 	AttributeSet = WcParams.AttributeSet;
 	
 }
+
+void UAuraWidgetController::BroadcastInitialValues()
+{
+}

@@ -19,18 +19,23 @@ UOverlayWidgetController* AAuraHUD::GetOverlayWidgetController(const FWidgetCont
 	return OverlayWidgetController;
 }
 
+
 void AAuraHUD::InitOverlay(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
 {
 	checkf(OverlayWidgetClass,TEXT("OverlayWidgetClass is uninitialized , please fill out in BP_AuraHUD"))
 	checkf(OverlayWidgetControllerClass,TEXT("OverlayWidgetControllerClass is uninitialized , please fill out in BP_AuraHUD"))
+	
 	//这里模版类型为 UUserWidget只是方便接收指针，而实际生成的类还是 OverlayWidgetClass
-	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass);
+	UUserWidget* Widget = CreateWidget<UUserWidget>(GetWorld(), OverlayWidgetClass); // 创建一个widget类
 	OverlayWidget = Cast<UAuraUserWidget>(Widget);
+
+	
 	const FWidgetControllerParams WidgetControllerParams(PC, PS, ASC, AS);
 	UOverlayWidgetController* WidgetController = GetOverlayWidgetController(WidgetControllerParams);
 
 	OverlayWidget->SetWidgetController(WidgetController);
-	
+	// 广播初始信息
+	WidgetController->BroadcastInitialValues();
 	Widget->AddToViewport();
 	
 }

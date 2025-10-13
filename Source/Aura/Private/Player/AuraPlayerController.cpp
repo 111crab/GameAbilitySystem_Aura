@@ -21,6 +21,10 @@ void AAuraPlayerController::PlayerTick(float DeltaSeconds)
 	CursorTrace();
 }
 
+void AAuraPlayerController::BrocadcastInitalValues()
+{
+}
+
 void AAuraPlayerController::CursorTrace()
 {
 	FHitResult CursorHit;

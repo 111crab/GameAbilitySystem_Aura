@@ -46,8 +46,8 @@ public:
 
 	// Set下面四个参数（PC，PS，ASC，AS），因为这些得从“model”里拿。&代表只传递引用，而不是把整个结构体复制过来。                   
 	UFUNCTION(BlueprintCallable)
-	void SetWidgetControllerParams(const FWidgetControllerParams& WcParams);
-	
+	void SetWidgetControllerParams(const FWidgetControllerParams& WCParams);
+	virtual void BroadcastInitialValues();
 protected:
 	// WidgetController主要需要关注的四个地方的数据，故而创建引用。
 	UPROPERTY(BlueprintReadOnly, Category= "WidgetController")
