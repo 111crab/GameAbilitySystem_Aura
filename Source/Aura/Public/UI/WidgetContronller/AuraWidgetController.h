@@ -48,6 +48,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParams(const FWidgetControllerParams& WCParams);
 	virtual void BroadcastInitialValues();
+	virtual void BindCallbacksToDependencies();
 protected:
 	// WidgetController主要需要关注的四个地方的数据，故而创建引用。
 	UPROPERTY(BlueprintReadOnly, Category= "WidgetController")
