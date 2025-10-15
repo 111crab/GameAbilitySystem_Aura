@@ -3,6 +3,7 @@
 
 #include "Actor/AuraEffectActor.h"
 
+#include "AbilitySystemBlueprintLibrary.h"
 #include "AbilitySystemInterface.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
@@ -14,41 +15,45 @@ AAuraEffectActor::AAuraEffectActor()
 
 	PrimaryActorTick.bCanEverTick = false;
 
-	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	SetRootComponent(Mesh);
-
-	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
-	Sphere->SetupAttachment(GetRootComponent());
+	SetRootComponent(CreateDefaultSubobject<USceneComponent>("RootComponent"));
 }
 
-void AAuraEffectActor::OnOverlap(UPrimitiveComponent* OverlappedCompoment, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIdex, bool bFromSweep, const FHitResult& SweepResult)
-{
-	//TODO: Change this to apply a Gameplay Effect. For now, using const_cast as a hack!
-	if (IAbilitySystemInterface* ASCInterface = Cast<IAbilitySystemInterface>(OtherActor))
-	{
-		const UAuraAttributeSet* AuraAttributeSet = Cast<UAuraAttributeSet>(ASCInterface->GetAbilitySystemComponent()->GetAttributeSet(UAuraAttributeSet::StaticClass()));
 
-		UAuraAttributeSet* MutableAuraAttibuteSet = const_cast<UAuraAttributeSet*>(AuraAttributeSet);
-		
-		MutableAuraAttibuteSet->SetHealth(MutableAuraAttibuteSet->GetHealth() + 25.f);
-		MutableAuraAttibuteSet->SetMana(MutableAuraAttibuteSet->GetMana() - 25.f);
-		Destroy();
-	} 
-}
-
-void AAuraEffectActor::EndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-}
 
 
 void AAuraEffectActor::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Sphere->OnComponentBeginOverlap.AddDynamic(this, &AAuraEffectActor::OnOverlap);
+
 	
-	Sphere->OnComponentEndOverlap.AddDynamic(this, &AAuraEffectActor::EndOverlap);
+}
+
+
+/**
+ * FUNC:  应用GE给TargetActor
+ * 
+ * @param TargetActor 目标Actor
+ * @param GameplayEffectClass GE的类
+ */
+void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGameplayEffect> GameplayEffectClass)
+{
+	// 1. 快捷安全的拿到 TargetActor 的ASC
+	UAbilitySystemComponent* TargetASC =  UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor);
+	if (nullptr == TargetASC) return; // 如果这个 Actor不具备 ASC 功能则啥都不发生
+	
+
+	// 2. TargetASC调用 ApplyGameplayEffectSpecToSelf 给自己施加GE
+	
+	check(GameplayEffectClass);  // 检查蓝图里填GE了没->给成员函数（eg. InstantEffect）填，再配到 GameplayEffectClass
+	
+	FGameplayEffectContextHandle EffectContextHandle = TargetASC->MakeEffectContext(); // 创建上下文 Handle，作为 MakeOutgoingSpec 的参数。
+	
+	EffectContextHandle.AddSourceObject(this); // 记录GE的来源，this就是指这个EffectActor就是来源本身。
+	
+	const FGameplayEffectSpecHandle EffectSpecHandle =  TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle); // 创建 EffectSpecHandle，作为 ApplyGameplayEffectSpecToSelf 参数。
+	
+	TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get()); // 这里需要一个 const引用 作为参数。从 EffectSpecHandle 的 wrap 中取 Data（TSharePtr也是一种 wrap） 用 get（）取裸指针。再 ‘*’ 解引用符合入参类型。
+
 	
 }
