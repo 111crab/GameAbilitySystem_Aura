@@ -74,4 +74,7 @@ protected:
 	EEffectRemovalPolicy InfiniteEffectRemovalPolicy = EEffectRemovalPolicy::RemoveOnEndOverlap;
 
 	TMap<FActiveGameplayEffectHandle, UAbilitySystemComponent*> ActiveEffectHandles; // GEHandle 与 ASC 的映射。
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly,Category="Applied Effects")
+	float ActorLevel = 1.f;
 };

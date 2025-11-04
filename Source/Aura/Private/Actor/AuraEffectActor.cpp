@@ -51,7 +51,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	
 	EffectContextHandle.AddSourceObject(this); // 记录GE的来源，this就是指这个EffectActor就是来源本身。
 	
-	const FGameplayEffectSpecHandle EffectSpecHandle =  TargetASC->MakeOutgoingSpec(GameplayEffectClass, 1.f, EffectContextHandle); // 创建 EffectSpecHandle，作为 ApplyGameplayEffectSpecToSelf 参数。
+	const FGameplayEffectSpecHandle EffectSpecHandle =  TargetASC->MakeOutgoingSpec(GameplayEffectClass, ActorLevel, EffectContextHandle); // 创建 EffectSpecHandle，作为 ApplyGameplayEffectSpecToSelf 参数。
 	
 	const FActiveGameplayEffectHandle ActiveGameplayEffectHandle =  TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get()); // 这里需要一个 const引用 作为参数。从 EffectSpecHandle 的 wrap 中取 Data（TSharePtr也是一种 wrap） 用 get（）取裸指针。再 ‘*’ 解引用符合入参类型。
 
