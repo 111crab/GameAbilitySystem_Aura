@@ -5,16 +5,7 @@
 #include "CoreMinimal.h"
 #include "UI/WidgetContronller/AuraWidgetController.h"
 #include "OverlayWidgetController.generated.h"
-
-
 class UAuraUserWidget;
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth); // 动态多播委托：只有动态的才能蓝图or编辑器可见，给美术用。
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature,float,NewMaxHealth);
-
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChangedSignature,float,NewMana);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature,float,NewMaxMana);
-
-
 // 用于 UI 显示的数据表结构
 USTRUCT(BlueprintType)
 struct FUIWidgetRow : public FTableRowBase  // 改行表继承自 FTableRowBase: 行数据表的基类
@@ -33,6 +24,16 @@ struct FUIWidgetRow : public FTableRowBase  // 改行表继承自 FTableRowBase:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	UTexture2D* Image = nullptr;
 };
+
+class UAuraUserWidget;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedSignature, float, NewHealth); // 动态多播委托：只有动态的才能蓝图or编辑器可见，给美术用。
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxHealthChangedSignature,float,NewMaxHealth);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnManaChangedSignature,float,NewMana);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnMaxManaChangedSignature,float,NewMaxMana);
+
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMessageWidgetRowSignature,FUIWidgetRow,Row);
 
 /**
  * 
@@ -58,6 +59,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable,Category="GAS|Attributes")
 	FOnMaxManaChangedSignature OnMaxManaChanged;
+
+	UPROPERTY(BlueprintAssignable,Category="GAS|Messages")
+	FMessageWidgetRowSignature MessageWidgetRowDelegate;
 
 protected:
 
