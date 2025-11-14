@@ -12,8 +12,8 @@ UAuraAttributeSet::UAuraAttributeSet()
 {
 	InitHealth(50.f);
 	InitMaxHealth(100.f);
-	InitMana(50.f);
-	InitMaxMana(100.f);
+	InitMana(10.f);
+	InitMaxMana(50.f);
 }
 
 
@@ -31,6 +31,7 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 }
 
 /**
+ * 触发时机：CurrentValue修改前。 这个函数执行之后会 SetCurrentValue
  * 在 Attribute 修改之前调用（override）
  * @param Attribute 
  * @param NewValue 
@@ -38,7 +39,7 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
-	
+	UE_LOG(LogTemp,Warning,TEXT("The Newvalue is %f"),NewValue);
 	// 血量蓝条的下限限制
 	if (Attribute == GetHealthAttribute())
 	{
@@ -50,7 +51,6 @@ void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, 
 		NewValue = FMath::Clamp(NewValue,0.f,GetMaxMana());
 		UE_LOG(LogTemp,Warning,TEXT("Mana is %f"),NewValue);
 	}
-
 }
 
 /**
@@ -94,13 +94,21 @@ void UAuraAttributeSet::SetEffectProperties(const struct FGameplayEffectModCallb
 	}
 
 }
-
+// 触发时机：BaseValue修改后
 void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
 	FEffectProperties Props;
 	SetEffectProperties(Data,Props);
-	
+
+	/*if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	{
+		SetHealth(FMath::Clamp(GetHealth(),0.f,GetMaxHealth()));
+	}
+	if (Data.EvaluatedData.Attribute == GetManaAttribute())
+	{
+		SetMana(FMath::Clamp(GetMana(),0.f,GetMaxMana()));
+	}*/
 }
 
 //当 Health 属性从服务器复制到客户端时自动调用 param: OldMaxHealth 包含属性更新前的旧值，可用于比较变化
