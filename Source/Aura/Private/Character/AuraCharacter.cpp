@@ -33,7 +33,7 @@ void AAuraCharacter::PossessedBy(AController* NewController)
 {
 	Super::PossessedBy(NewController);
 
-	// Init ability actor info for the Server 
+	// Init AbilityActorInfo for the Server 
 	InitAbilityActorInfo();
 }
 
@@ -41,7 +41,7 @@ void AAuraCharacter::OnRep_PlayerState()
 {
 	Super::OnRep_PlayerState();
 
-	// Init ability actor info for the Client 
+	// Init AbilityActorInfo for the Client 
 	InitAbilityActorInfo();
 	
 }
@@ -64,6 +64,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 		}
 	}
 
-
+	// 此方法只在 Server 端调用即可，因为属性本身有复制属性，会同步到 Client
+	InitializedPrimaryAbilities();
 	
 }

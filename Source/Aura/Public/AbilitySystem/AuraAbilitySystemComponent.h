@@ -21,6 +21,7 @@ class AURA_API UAuraAbilitySystemComponent : public UAbilitySystemComponent
 public:
 
 	void AblityActorInfoSet();
+	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 	FEffectAssetTags EffectAssetTags;
 

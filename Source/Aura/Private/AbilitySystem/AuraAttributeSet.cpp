@@ -10,7 +10,7 @@
 
 UAuraAttributeSet::UAuraAttributeSet()
 {
-	InitHealth(50.f);
+	InitHealth(10.f);
 	InitMaxHealth(100.f);
 	InitMana(10.f);
 	InitMaxMana(50.f);
@@ -21,11 +21,15 @@ UAuraAttributeSet::UAuraAttributeSet()
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Strength, COND_None , REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Intelligence, COND_None , REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Resilience, COND_None , REPNOTIFY_Always);
+	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Vigor, COND_None , REPNOTIFY_Always);
 
 	//用于注册属性的同步行为  param(当前属性集类，属性名称，同步条件，通知方式)
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Health, COND_None , REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxHealth, COND_None , REPNOTIFY_Always);
-
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Mana, COND_None , REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, MaxMana, COND_None , REPNOTIFY_Always);
 }
@@ -39,17 +43,17 @@ void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 void UAuraAttributeSet::PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue)
 {
 	Super::PreAttributeChange(Attribute, NewValue);
-	UE_LOG(LogTemp,Warning,TEXT("The Newvalue is %f"),NewValue);
+	
 	// 血量蓝条的下限限制
 	if (Attribute == GetHealthAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue,0.f,GetMaxHealth()); // Clamp : 把 X 控制在 min 和 max中间
-		UE_LOG(LogTemp,Warning,TEXT("Health is %f"),NewValue);
+		//NewValue = FMath::Clamp(NewValue,0.f,GetMaxHealth()); // Clamp : 把 X 控制在 min 和 max中间
+		
 	}
 	if (Attribute == GetManaAttribute())
 	{
-		NewValue = FMath::Clamp(NewValue,0.f,GetMaxMana());
-		UE_LOG(LogTemp,Warning,TEXT("Mana is %f"),NewValue);
+		//NewValue = FMath::Clamp(NewValue,0.f,GetMaxMana());
+		
 	}
 }
 
@@ -101,14 +105,14 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	FEffectProperties Props;
 	SetEffectProperties(Data,Props);
 
-	/*if (Data.EvaluatedData.Attribute == GetHealthAttribute())
+	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
-		SetHealth(FMath::Clamp(GetHealth(),0.f,GetMaxHealth()));
+		//SetHealth(FMath::Clamp(GetHealth(),0.f,GetMaxHealth()));
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
-		SetMana(FMath::Clamp(GetMana(),0.f,GetMaxMana()));
-	}*/
+		//SetMana(FMath::Clamp(GetMana(),0.f,GetMaxMana()));
+	}
 }
 
 //当 Health 属性从服务器复制到客户端时自动调用 param: OldMaxHealth 包含属性更新前的旧值，可用于比较变化
@@ -138,6 +142,24 @@ void UAuraAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) 
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Mana , OldMaxMana);
 }
 
+void UAuraAttributeSet::OnRep_Strength(const FGameplayAttributeData& OldStrength) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Strength , OldStrength);
+}
 
+void UAuraAttributeSet::OnRep_Intelligence(const FGameplayAttributeData& OldIntelligence) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Intelligence , OldIntelligence);
+}
+
+void UAuraAttributeSet::OnRep_Resilience(const FGameplayAttributeData& OldResilience) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Resilience , OldResilience);
+}
+
+void UAuraAttributeSet::OnRep_Vigor(const FGameplayAttributeData& OldVigor) const
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Vigor , OldVigor);
+}
 
 
