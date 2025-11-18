@@ -51,3 +51,9 @@ void AAuraEnemy::UnHighlightActor()
 	Weapon->SetRenderCustomDepth(false);
 
 }
+
+int32 AAuraEnemy::GetPlayerLevel()
+{
+	// 敌人的等级挂在自己的 Character 类中
+	return Level;
+}

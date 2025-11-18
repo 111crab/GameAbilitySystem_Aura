@@ -46,6 +46,14 @@ void AAuraCharacter::OnRep_PlayerState()
 	
 }
 
+int32 AAuraCharacter::GetPlayerLevel()
+{
+	// Aura 的等级在 PlayerState 中。
+	const AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
+	check(AuraPlayerState);
+	return AuraPlayerState->GetPlayerLevel();
+}
+
 void AAuraCharacter::InitAbilityActorInfo() 
 {
 	AAuraPlayerState* AuraPlayerState = GetPlayerState<AAuraPlayerState>();
@@ -65,6 +73,6 @@ void AAuraCharacter::InitAbilityActorInfo()
 	}
 
 	// 此方法只在 Server 端调用即可，因为属性本身有复制属性，会同步到 Client
-	InitializedPrimaryAbilities();
+	InitializedDefaultAttributes();
 	
 }
