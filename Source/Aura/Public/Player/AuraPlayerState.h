@@ -23,6 +23,9 @@ public:
 	UAttributeSet* GetAttributeSet() const{ return AttributeSet; }
 	FORCEINLINE int32 GetPlayerLevel() const{ return Level;} // 等级挂在 PlayerState 中
 protected:
+	
+	
+	 // ASC 和 AS 的绑定在 InitAbilityActorInfo 中完成
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	

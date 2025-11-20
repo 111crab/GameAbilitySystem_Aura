@@ -13,7 +13,8 @@ AAuraPlayerState::AAuraPlayerState()
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
-
+	
+	// 使用 CreateDefaultSubobject 创建的东西，会随着一起序列化和网络同步，所以 AS 不是 Component 也用这个函数创建，但在蓝图视图里 AS 不可见，因为它由 ASC 管理。
 	AttributeSet = CreateDefaultSubobject<UAuraAttributeSet>("AttributeSet");
 	
 	NetUpdateFrequency = 100.f;

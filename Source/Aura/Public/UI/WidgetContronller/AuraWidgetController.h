@@ -14,6 +14,7 @@ struct FWidgetControllerParams
 	GENERATED_BODY();
 
 	FWidgetControllerParams(){}
+	
 	//创建结构体的时候，需要传入这四个关键变量。“：”后面的意味着直接把传进来的4个变量直接塞给成员变量。
 	FWidgetControllerParams(APlayerController* PC, APlayerState* PS, UAbilitySystemComponent* ASC, UAttributeSet* AS)
 	: PlayerController(PC), PlayerState(PS), AbilitySystemComponent(ASC) , AttributeSet(AS) {}
@@ -44,11 +45,18 @@ class AURA_API UAuraWidgetController : public UObject
 
 public:
 
-	// Set下面四个参数（PC，PS，ASC，AS），因为这些得从“model”里拿。&代表只传递引用，而不是把整个结构体复制过来。                   
+	
+	/**
+	 * Set下面四个参数（PC，PS，ASC，AS），因为这些得从“model”里拿。&代表只传递引用，而不是把整个结构体复制过来。
+	 * @param WCParams 
+	 */
 	UFUNCTION(BlueprintCallable)
 	void SetWidgetControllerParams(const FWidgetControllerParams& WCParams);
+	
 	virtual void BroadcastInitialValues();
+	
 	virtual void BindCallbacksToDependencies();
+	
 protected:
 	// WidgetController主要需要关注的四个地方的数据，故而创建引用。
 	UPROPERTY(BlueprintReadOnly, Category= "WidgetController")
