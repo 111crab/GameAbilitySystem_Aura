@@ -2,9 +2,11 @@
 
 
 #include "Player/AuraPlayerController.h"
-
-#include "EnhancedInputSubsystems.h"
-#include "EnhancedInputComponent.h"
+#include "Engine/HitResult.h"              
+#include "GameFramework/Pawn.h"             
+#include "Engine/LocalPlayer.h"             
+#include "EnhancedInputSubsystems.h"        
+#include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
 
 
@@ -21,7 +23,7 @@ void AAuraPlayerController::PlayerTick(float DeltaSeconds)
 	CursorTrace();
 }
 
-void AAuraPlayerController::BrocadcastInitalValues()
+void AAuraPlayerController::BroadcastInitialValues()
 {
 }
 
@@ -83,6 +85,21 @@ void AAuraPlayerController::CursorTrace()
 	}
 }
 
+void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(1,3.f,FColor::Red,*InputTag.ToString());
+}
+
+void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(2,3.f,FColor::Blue,*InputTag.ToString());
+}
+
+void AAuraPlayerController::AbilityInputTagHeled(FGameplayTag InputTag)
+{
+	GEngine->AddOnScreenDebugMessage(3,3.f,FColor::Orange,*InputTag.ToString());
+}
+
 
 void AAuraPlayerController::BeginPlay()
 {
@@ -121,9 +138,12 @@ void AAuraPlayerController::SetupInputComponent()
 	Super::SetupInputComponent();
 
 	//CastChecked:检查并且强转，把普通的输入转成增强输入
-	UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(InputComponent);
+	UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 	//绑定动作，只要MoveAction被持续触发，this Controller的 Move函数持续被回调。
-	EnhancedInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this, &AAuraPlayerController::Move);
+	AuraInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this, &AAuraPlayerController::Move);
+	
+	// 绑定按键事件函数并传回 InputTag
+	AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased,&ThisClass::AbilityInputTagHeled);
 }
 
 void AAuraPlayerController::Move(const FInputActionValue& InputActionValue)

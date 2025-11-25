@@ -8,6 +8,7 @@
 #include "Interaction/CombatInterface.h"
 
 #include "AuraCharacterBase.generated.h"
+class UGameplayAbility;
 class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
@@ -61,5 +62,17 @@ protected:
 	 * 使用 GE 初始化属性，或者更新派生属性
 	 */
 	void InitializedDefaultAttributes() const;
+
+
+	/**
+	 * 为角色添加初始 GA，真正添加应在 ASC 中的 AddCharacterAbilities，故而 call
+	 * 调用时机：Character 被 PossessedBy 的时候
+	 */
+	void AddCharacterAbilities() ;
+private:
+
+	// 角色初始 GA-Array，编辑器中自配置
+	UPROPERTY(EditAnywhere,Category= "Attributes")
+	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
 
 };

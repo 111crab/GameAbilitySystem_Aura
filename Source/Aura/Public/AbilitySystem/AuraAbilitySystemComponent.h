@@ -25,6 +25,12 @@ public:
 
 	FEffectAssetTags EffectAssetTags;
 
+	/**
+	 * 真正为角色添加初始 GA
+	 * @param StartupAbilities 来自于 Character 在编辑器中配置的 StartupAbilities-Array
+	 */
+	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);
+
 protected:
 
 	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
