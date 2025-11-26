@@ -65,7 +65,7 @@ protected:
 
 
 	/**
-	 * 为角色添加初始 GA，真正添加应在 ASC 中的 AddCharacterAbilities，故而 call
+	 * 注册输入-技能的绑定。真正注册操作应在 ASC 中的 AddCharacterAbilities，故而 call
 	 * 调用时机：Character 被 PossessedBy 的时候
 	 */
 	void AddCharacterAbilities() ;

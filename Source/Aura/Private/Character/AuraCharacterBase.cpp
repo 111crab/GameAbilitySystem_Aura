@@ -56,7 +56,7 @@ void AAuraCharacterBase::InitializedDefaultAttributes() const
 void AAuraCharacterBase::AddCharacterAbilities()
 {
 	UAuraAbilitySystemComponent* AuraASC = CastChecked<UAuraAbilitySystemComponent>(AbilitySystemComponent);
-	if (!HasAuthority()) return;
+	if (!HasAuthority()) return; // 比如服务器有权威
 	AuraASC->AddCharacterAbilities(StartupAbilities);
 }
 

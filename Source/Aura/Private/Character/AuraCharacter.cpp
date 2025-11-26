@@ -64,7 +64,7 @@ void AAuraCharacter::InitAbilityActorInfo()
 	
 	// 这里的 InitAbilityActorInfo 是库函数，实际上这里算是将 PlayerState 和真正的 ASC 和 AS绑定起来，让 PS 真正拥有 ASC。
 	AuraPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(AuraPlayerState,this);
-	Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AblityActorInfoSet();
+	Cast<UAuraAbilitySystemComponent>(AuraPlayerState->GetAbilitySystemComponent())->AbilityActorInfoSet();
 	
 	AbilitySystemComponent = AuraPlayerState->GetAbilitySystemComponent();
 	AttributeSet = AuraPlayerState->GetAttributeSet();

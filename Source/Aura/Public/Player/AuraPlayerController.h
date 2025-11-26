@@ -15,6 +15,7 @@ class UInputAction;
 struct FInputActionValue;
 class IEnemyInterface;
 class UAuraInputConfig;
+class UAuraAbilitySystemComponent;
 /**
  * 
  */
@@ -45,12 +46,20 @@ private:
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
 
+	/*
+	 * 均为触发按键事件的回调函数，实际的操作需调用 ASC 中的同名函数
+	 */
 	void AbilityInputTagPressed(FGameplayTag InputTag);
 	void AbilityInputTagReleased(FGameplayTag InputTag);
-	void AbilityInputTagHeled(FGameplayTag InputTag);
+	void AbilityInputTagHeld(FGameplayTag InputTag);
 
 	// InputConfig （IA - InputTag）
 	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UAuraInputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
+
+	UAuraAbilitySystemComponent* GetASC();
 };
 
