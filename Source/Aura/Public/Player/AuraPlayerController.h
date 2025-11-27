@@ -16,6 +16,7 @@ struct FInputActionValue;
 class IEnemyInterface;
 class UAuraInputConfig;
 class UAuraAbilitySystemComponent;
+class USplineComponent;
 /**
  * 
  */
@@ -45,6 +46,7 @@ private:
 	void CursorTrace();
 	IEnemyInterface* LastActor;
 	IEnemyInterface* ThisActor;
+	FHitResult CursorHit; // FHitResult 一种结构体，可以存储一系列射线检测的响应结果。
 
 	/*
 	 * 均为触发按键事件的回调函数，实际的操作需调用 ASC 中的同名函数
@@ -61,5 +63,24 @@ private:
 	TObjectPtr<UAuraAbilitySystemComponent> AuraAbilitySystemComponent;
 
 	UAuraAbilitySystemComponent* GetASC();
+
+	// Click to move
+	FVector CachedDestination = FVector::ZeroVector;
+	float FollowTime = 0.f;
+	float ShortPressThreshold = 0.5f;
+	bool bAutoRunning = false;
+	bool bTargeting = false;
+	
+	UPROPERTY(EditDefaultsOnly)
+	float AutoRunAcceptanceRadius = 50.f;
+	UPROPERTY(VisibleAnywhere)
+	TObjectPtr<USplineComponent> Spline;
+
+	/**
+	 * 单点添加自动导航的移动
+	 * 注意：如果客户端也要导航功能，请在项目设置的 Navigation System 勾选 Allow Client Side Navigation
+	 */
+	void AutoRun();
+	
 };
 

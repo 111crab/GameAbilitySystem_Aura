@@ -22,7 +22,6 @@ public:
 
 	void AbilityActorInfoSet();
 	
-
 	FEffectAssetTags EffectAssetTags;
 
 	/**
@@ -40,5 +39,14 @@ public:
 	
 protected:
 
-	void EffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
+	
+	/**
+	 * 应用 GE 到自己的回调函数，由于委托来自宏，故而设置需要的输入。
+	 * 注：加入 Client 前缀，为 ClientRPC 用法，委托仍在 Server Call 但是也会在客户端执行。此函数实现的时候需加后缀 " _Implementation "(目的： 为了在 Client 端操作的玩家也能执行拾取物品的 UI 反馈)
+	 * @param AbilitySystemComponent 
+	 * @param EffectSpec 
+	 * @param ActiveEffectHandle 
+	 */
+	UFUNCTION(Client, Reliable)
+	void ClientEffectApplied(UAbilitySystemComponent* AbilitySystemComponent, const FGameplayEffectSpec& EffectSpec, FActiveGameplayEffectHandle ActiveEffectHandle);
 };
