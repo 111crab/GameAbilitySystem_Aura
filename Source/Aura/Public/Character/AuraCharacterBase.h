@@ -29,6 +29,16 @@ protected:
 	UPROPERTY(EditAnywhere,Category= "Combat")
 	TObjectPtr<USkeletalMeshComponent> Weapon;
 
+	// 武器尖端名称，用于返回其 FVector 位置
+	UPROPERTY(EditAnywhere,Category= "Combat")
+	FName WeaponTipSocketName;
+
+	/**
+	 * 获得武器尖端的 FVector 位置
+	 * @return 
+	 */
+	virtual FVector GetCombatSocketLocation() override;
+
 	UPROPERTY()
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	

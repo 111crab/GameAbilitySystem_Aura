@@ -29,4 +29,11 @@ public:
 	 * @return Level
 	 */
 	virtual int32 GetPlayerLevel();
+
+	
+	/**
+	 * 获得武器尖端的 FVector 位置，需 Implement
+	 * @return 
+	 */
+	virtual FVector GetCombatSocketLocation();
 };

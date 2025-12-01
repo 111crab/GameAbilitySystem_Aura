@@ -9,7 +9,9 @@
 AAuraProjectile::AAuraProjectile()
 {
 	PrimaryActorTick.bCanEverTick = false;
+	bReplicates = true; // 这个类可以被复制
 
+	
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
 	SetRootComponent(Sphere);
 	// ECollisionEnabled: NoCollision, QueryOnly, PhysicsOnly, QueryAndPhysics 区别在于物理模拟和 射线/形状 查询机制
