@@ -25,7 +25,15 @@ protected:
 	 */
 	virtual void ActivateAbility(const FGameplayAbilitySpecHandle Handle, const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo, const FGameplayEventData* TriggerEventData) override;
 
+	/**
+	 * 生成投射物
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Projectile")
+	void SpawnProjectile();
+	
 	// 投射物类
 	UPROPERTY(EditAnywhere, BlueprintReadOnly);
 	TSubclassOf<AAuraProjectile> ProjectileClass;
+
+	
 };
