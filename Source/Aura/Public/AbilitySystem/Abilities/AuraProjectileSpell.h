@@ -29,7 +29,7 @@ protected:
 	 * 生成投射物
 	 */
 	UFUNCTION(BlueprintCallable, Category = "Projectile")
-	void SpawnProjectile();
+	void SpawnProjectile(const FVector& ProjectileTargetLocation);
 	
 	// 投射物类
 	UPROPERTY(EditAnywhere, BlueprintReadOnly);

@@ -91,12 +91,9 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
 		return;
 	}
-	if (bTargeting)
-	{
-		// 是：激活 GA
-		if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
-	}
-	else
+
+	if (GetASC()) GetASC()->AbilityInputTagReleased(InputTag);
+	if (!bTargeting && !bShiftDown)
 	{
 		APawn* ControlledPawn = GetPawn();
 		if (FollowTime <= ShortPressThreshold && ControlledPawn)
@@ -120,14 +117,14 @@ void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)
 
 void AAuraPlayerController::AbilityInputTagHeld(FGameplayTag InputTag)
 {
-	// 判断如果不是右键，则可以激活 GA
+	// 判断如果不是左键，则可以激活 GA
 	if (!InputTag.MatchesTagExact(FAuraGameplayTags::Get().InputTag_LMB))
 	{
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
 		return;
 	}
 	// 判断目标是否是一个有效 Target
-	if (bTargeting)
+	if (bTargeting || bShiftDown)
 	{
 		// 是：激活 GA
 		if (GetASC()) GetASC()->AbilityInputTagHeld(InputTag);
@@ -203,7 +200,8 @@ void AAuraPlayerController::SetupInputComponent()
 	UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
 	//绑定动作，只要MoveAction被持续触发，this Controller的 Move函数持续被回调。
 	AuraInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this, &AAuraPlayerController::Move);
-	
+	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started,this, &AAuraPlayerController::ShiftPressed);
+	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed,this, &AAuraPlayerController::ShiftReleased);
 	// 绑定按键事件函数并传回 InputTag
 	AuraInputComponent->BindAbilityActions(InputConfig, this, &ThisClass::AbilityInputTagPressed, &ThisClass::AbilityInputTagReleased,&ThisClass::AbilityInputTagHeld);
 }

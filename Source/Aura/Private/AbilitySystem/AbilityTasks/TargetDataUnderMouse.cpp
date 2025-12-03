@@ -37,8 +37,6 @@ void UTargetDataUnderMouse::Activate()
 			SetWaitingOnRemotePlayerData(); // 没调用过则等待
 		}
 	}
-	
-
 }
 
 void UTargetDataUnderMouse::SendMouseCursorData()

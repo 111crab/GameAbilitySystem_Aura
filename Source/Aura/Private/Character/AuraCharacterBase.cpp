@@ -5,12 +5,17 @@
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/SkeletalMeshComponent.h" 
 
 AAuraCharacterBase::AAuraCharacterBase()
 {
  
 	PrimaryActorTick.bCanEverTick = false;
+
+	// 设置对相机无碰撞
+	GetCapsuleComponent()->SetCollisionResponseToChannel(ECC_Camera,ECR_Ignore);
+	GetMesh()->SetCollisionResponseToChannel(ECC_Camera,ECR_Ignore);
 
     // Both the aura and enemy have weapon
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>("Weapon");
@@ -36,6 +41,7 @@ FVector AAuraCharacterBase::GetCombatSocketLocation()
 	check(Weapon);
 	return Weapon->GetSocketLocation(WeaponTipSocketName);
 }
+
 
 void AAuraCharacterBase::InitAbilityActorInfo()
 {
