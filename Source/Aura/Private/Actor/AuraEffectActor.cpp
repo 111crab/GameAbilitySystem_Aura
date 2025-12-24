@@ -7,7 +7,12 @@
 #include "AbilitySystemInterface.h"
 #include "AbilitySystem/AuraAbilitySystemComponent.h"
 #include "AbilitySystem/AuraAttributeSet.h"
+#include "Character/AuraCharacter.h"
 #include "Components/SphereComponent.h"
+#include "Engine/World.h"
+#include "DrawDebugHelpers.h"
+#include "AbilitySystemComponent.h"
+#include "GameplayEffect.h"
 
 
 AAuraEffectActor::AAuraEffectActor()
@@ -60,8 +65,11 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	if (bIsInfinite && InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap) // 如果是 Infinite 类型，而且也打算移除。（不想移除存个 P）
 	{
 		ActiveEffectHandles.Add(ActiveGameplayEffectHandle , TargetASC); // 存储映射（自定义映射）
+		
 	}
 }
+#include "Kismet/KismetSystemLibrary.h"
+#include "Engine/Engine.h"
 
 void AAuraEffectActor::OnOverlap(AActor* TargetActor)
 {
@@ -100,6 +108,7 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 
 	if (InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap) // 移除 Infinite 逻辑
 	{
+		
 		UAbilitySystemComponent* TargetASC =  UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(TargetActor); // 拿到ASC
 		if (!IsValid(TargetASC)) return;
 
@@ -108,7 +117,7 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 		{
 			if (TargetASC == HandlePar.Value)
 			{
-				TargetASC->RemoveActiveGameplayEffect(HandlePar.Key,1); // 移除指定 FActiveGameplayEffectHandle，后面的1代表删除一层堆栈。
+				TargetASC->RemoveActiveGameplayEffect(HandlePar.Key); // 移除指定 FActiveGameplayEffectHandle，后面的1代表删除一层堆栈。
 				HandlesToRemove.Add(HandlePar.Key);
 			}
 			
@@ -117,6 +126,7 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 		{
 			ActiveEffectHandles.FindAndRemoveChecked(Handle); // 另外删本地记录
 		}
+		
 	}
 	
 }

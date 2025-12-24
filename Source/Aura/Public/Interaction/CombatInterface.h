@@ -38,7 +38,12 @@ public:
 	 */
 	virtual FVector GetCombatSocketLocation();
 
-	UFUNCTION(BlueprintImplementableEvent , BlueprintCallable)
+	
+	/**
+	 * Pass the Facing Target for MotionWarping (Anim Montage)
+	 * @param Target 
+	 */
+	UFUNCTION(BlueprintImplementableEvent , BlueprintCallable) // "BlueprintImplementableEvent" not use virtual
 	void UpdateFacingTarget(const FVector& Target);
 	
 };
