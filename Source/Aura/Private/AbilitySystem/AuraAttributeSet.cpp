@@ -137,6 +137,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	if (Data.EvaluatedData.Attribute == GetHealthAttribute())
 	{
 		SetHealth(FMath::Clamp(GetHealth(),0.f,GetMaxHealth()));
+		UE_LOG(LogTemp, Warning , TEXT("Health Changed on %s, Health is %f"),*Props.TargetAvatarActor->GetName(),GetHealth());
 	}
 	if (Data.EvaluatedData.Attribute == GetManaAttribute())
 	{
@@ -228,6 +229,6 @@ void UAuraAttributeSet::OnRep_MaxHealth(const FGameplayAttributeData& OldMaxHeal
 
 void UAuraAttributeSet::OnRep_MaxMana(const FGameplayAttributeData& OldMaxMana) const
 {
-	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, Mana , OldMaxMana);
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UAuraAttributeSet, MaxMana , OldMaxMana);
 }
 

@@ -117,7 +117,7 @@ void AAuraEffectActor::OnEndOverlap(AActor* TargetActor)
 		{
 			if (TargetASC == HandlePar.Value)
 			{
-				TargetASC->RemoveActiveGameplayEffect(HandlePar.Key); // 移除指定 FActiveGameplayEffectHandle，后面的1代表删除一层堆栈。
+				TargetASC->RemoveActiveGameplayEffect(HandlePar.Key, 1.f); // 移除指定 FActiveGameplayEffectHandle，后面的1代表删除一层堆栈。
 				HandlesToRemove.Add(HandlePar.Key);
 			}
 			
