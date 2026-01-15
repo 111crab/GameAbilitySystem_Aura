@@ -19,5 +19,8 @@ public:
 	// 初始 Ability 的 Tag 设置
 	UPROPERTY(EditDefaultsOnly,Category= "Input")
 	FGameplayTag StartupInputTag;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category= "Damage")
+	FScalableFloat Damage;
 	
 };

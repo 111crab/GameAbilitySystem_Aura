@@ -20,7 +20,16 @@ class AURA_API AAuraCharacterBase : public ACharacter , public IAbilitySystemInt
 
 public:
 	AAuraCharacterBase();
+	
+	/**
+	 * 获取 Character（this） 的 ASC，因为 ASC 存在当前类的 Protected
+	 * @return ASC
+	 */
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	/**
+	 * 获取 Character（this） 的 AS，因为 AS 存在当前类的 Protected
+	 * @return AS
+	 */
 	UAttributeSet* GetAttributeSet() const{ return AttributeSet;}
 protected:
 
@@ -72,7 +81,7 @@ protected:
 	/**
 	 * 使用 GE 初始化属性，或者更新派生属性
 	 */
-	void InitializedDefaultAttributes() const;
+	virtual void InitializedDefaultAttributes() const;
 
 
 	/**
