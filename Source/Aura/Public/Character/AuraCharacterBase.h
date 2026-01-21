@@ -12,7 +12,7 @@ class UGameplayAbility;
 class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
-
+class UAnimMontage;
 UCLASS(Abstract)
 class AURA_API AAuraCharacterBase : public ACharacter , public IAbilitySystemInterface , public ICombatInterface
 {
@@ -31,6 +31,12 @@ public:
 	 * @return AS
 	 */
 	UAttributeSet* GetAttributeSet() const{ return AttributeSet;}
+	
+	/**
+	 * CombatInterface接口实现
+	 * @return 受击蒙太奇
+	 */
+	virtual UAnimMontage* GetHitReactMontage_Implementation() override;
 protected:
 
 	virtual void BeginPlay() override;
@@ -94,5 +100,9 @@ private:
 	// 角色初始 GA-Array，编辑器中自配置
 	UPROPERTY(EditAnywhere,Category= "Attributes")
 	TArray<TSubclassOf<UGameplayAbility>> StartupAbilities;
+
+	// 角色受击蒙太奇
+	UPROPERTY(EditDefaultsOnly, Category= "Combat")
+	TObjectPtr<UAnimMontage> HitReactMontage;
 
 };

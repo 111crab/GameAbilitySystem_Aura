@@ -37,6 +37,21 @@ public:
 	FOnAttributeChangedSignature OnMaxHealthChanged;
 
 	
+	/**
+	 * 受击 CallBack 函数
+	 * @param CallbackTag 根据的特定 GameplayTag 
+	 * @param NewCount 此 Tag 数量
+	 */
+	void HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount);
+
+	// bool:是否受击
+	UPROPERTY(BlueprintReadOnly , Category = "Cambat")
+	bool bHitReacting = false;
+
+	// 基础步行速度
+	UPROPERTY(BlueprintReadOnly , Category = "Cambat")
+	float BaseWalkSpeed = 250.f;
+	
 protected:
 	virtual void BeginPlay() override;
 	
@@ -52,4 +67,7 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<UWidgetComponent> HealthBar;
+
+
+	
 };

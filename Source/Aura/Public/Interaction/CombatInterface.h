@@ -12,7 +12,7 @@ class UCombatInterface : public UInterface
 {
 	GENERATED_BODY()
 };
-
+class UAnimMontage;
 /**
  *
  * 
@@ -45,5 +45,12 @@ public:
 	 */
 	UFUNCTION(BlueprintImplementableEvent , BlueprintCallable) // "BlueprintImplementableEvent" not use virtual
 	void UpdateFacingTarget(const FVector& Target);
+
+	/**
+	 * 返回[受击蒙太奇]，由各自角色具体实现
+	 * @return 受击蒙太奇
+	 */
+	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
+	UAnimMontage* GetHitReactMontage();
 	
 };
