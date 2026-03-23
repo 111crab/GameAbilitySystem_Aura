@@ -12,6 +12,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "AuraGameplayTags.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 
 AAuraEnemy::AAuraEnemy()
 {
@@ -112,4 +113,10 @@ int32 AAuraEnemy::GetPlayerLevel()
 {
 	// 敌人的等级挂在自己的 Character 类中
 	return Level;
+}
+
+void AAuraEnemy::Die()
+{
+	SetLifeSpan(LifeSpan);
+	Super::Die();
 }

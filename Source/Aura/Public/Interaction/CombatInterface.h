@@ -52,5 +52,11 @@ public:
 	 */
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable)
 	UAnimMontage* GetHitReactMontage();
+
+	/**
+	 * 有关“死亡”的函数，可供共享调用
+	 * 纯虚函数
+	 */
+	virtual void Die() = 0;
 	
 };

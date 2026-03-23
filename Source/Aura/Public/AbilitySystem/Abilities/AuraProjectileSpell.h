@@ -4,8 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "AbilitySystem/Abilities/AuraGameplayAbility.h"
+
 #include "AuraProjectileSpell.generated.h"
 class AAuraProjectile;
+class UAudioComponent;
 /**
  * 
  */
