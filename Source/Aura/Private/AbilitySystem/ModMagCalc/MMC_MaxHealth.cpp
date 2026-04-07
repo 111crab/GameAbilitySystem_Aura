@@ -9,6 +9,7 @@
 UMMC_MaxHealth::UMMC_MaxHealth()
 {
 	// Bind for FGameplayEffectAttributeCaptureDefinition
+	// 手动创建的捕获定义
 	VigorDef.AttributeToCapture = UAuraAttributeSet::GetVigorAttribute();
 	VigorDef.AttributeSource = EGameplayEffectAttributeCaptureSource::Target;
 	VigorDef.bSnapshot = false;

@@ -15,7 +15,7 @@
 #include "Components/SplineComponent.h"
 #include "Input/AuraInputComponent.h"
 #include "Interaction/EnemyInterface.h"
-
+#include "GameFramework/Character.h"
 
 AAuraPlayerController::AAuraPlayerController()
 {
@@ -55,6 +55,18 @@ void AAuraPlayerController::BroadcastInitialValues()
 {
 }
 
+void AAuraPlayerController::ShowDamageNumber_Implementation(float DamageAmount, ACharacter* TargetCharacter)
+{
+	if (IsValid(TargetCharacter) && DamageTextComponentClass)
+	{
+		UDamageTextComponent* DamageText = NewObject<UDamageTextComponent>(TargetCharacter, DamageTextComponentClass); // 组件的 Outer 也就是所有者必须是其挂载点，不然也不会渲染。
+		DamageText->RegisterComponent();  // 游戏运行时创建的组件，不像 CreateDefaultsComponent，需要手动注册，不然有些东西不会渲染
+		DamageText->AttachToComponent(TargetCharacter->GetRootComponent(), FAttachmentTransformRules::KeepRelativeTransform);
+		DamageText->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+		DamageText->SetDamageText(DamageAmount);
+	}
+}
+
 void AAuraPlayerController::CursorTrace()
 {
 	// Func:GetHitResultUnderCursor 来自 PlayerController 或者其子类的方法，用于获取光标下射线能检测到目标的 FHitResult。
@@ -81,7 +93,6 @@ void AAuraPlayerController::AbilityInputTagPressed(FGameplayTag InputTag)
 		bTargeting = ThisActor ? true : false;
 		bAutoRunning = false;
 	}
-
 }
 
 void AAuraPlayerController::AbilityInputTagReleased(FGameplayTag InputTag)

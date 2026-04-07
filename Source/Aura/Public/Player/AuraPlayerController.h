@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "GameplayTagContainer.h"
+#include "UI/Widget/DamageTextComponent.h"
 #include "AuraPlayerController.generated.h"
 
 
@@ -28,6 +29,9 @@ public:
 	AAuraPlayerController();
 	virtual void PlayerTick(float DeltaSeconds) override;
 	virtual void BroadcastInitialValues();
+
+	UFUNCTION(Client, Reliable)
+	void ShowDamageNumber(float DamageAmount, ACharacter* TargetCharacter);
 protected:
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override; //自动被调用，而且是虚函数，会根据运行情况选择。这里被重写
@@ -88,6 +92,8 @@ private:
 	 * 注意：如果客户端也要导航功能，请在项目设置的 Navigation System 勾选 Allow Client Side Navigation
 	 */
 	void AutoRun();
-	
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UDamageTextComponent> DamageTextComponentClass;
 };
 
