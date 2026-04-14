@@ -6,7 +6,7 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, class UPackageMap* M
 	uint32 RepBits = 0;
 	/*
 	 * 这里用于检查某些变量是否需要复制（同时也得合法不是吗）
-	 * if判断通过，则将用无符号数的一位置1来表示。
+	 * 如果需要网络序列化，则翻转 RepBits 相应的一位 bit 来标识。
 	 */
 	if (Ar.IsSaving())
 	{
@@ -51,8 +51,8 @@ bool FAuraGameplayEffectContext::NetSerialize(FArchive& Ar, class UPackageMap* M
 	Ar.SerializeBits(&RepBits, 9);
 
 	/*
-	 * 上文若对应为已经被翻转为1，这里的if可以检查到。（即已经序列化成功）
-	 * 检查通过则存入Archive
+	 * 此处 if 用于判断上文的序列化是否成功
+	 * 若成功则检查通过则存入Archive
 	 */
 	if (RepBits & (1 << 0))
 	{

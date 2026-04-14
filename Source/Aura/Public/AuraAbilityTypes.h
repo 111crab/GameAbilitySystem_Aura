@@ -4,17 +4,26 @@
 #include "GameplayEffectTypes.h"
 #include "AuraAbilityTypes.generated.h"
 
+/*
+ * 自定义的 GEContext 结构
+ * Reason: 原本的 FGameplayEffectContext 无法存储我们想要的一些属性内容（比如是否暴击）
+ */
 USTRUCT(BlueprintType)
 struct FAuraGameplayEffectContext : public FGameplayEffectContext
 {
 	GENERATED_BODY()
 
 public:
-	bool IsCriticalHit(){return bIsCriticalHit; }
-	bool IsBlockedHit(){return bIsBlockedHit; }
+	
+	/* The Getter or Setter of member variable */
+	bool IsCriticalHit() const{ return bIsCriticalHit; }
+	bool IsBlockedHit() const{ return bIsBlockedHit; }
 
-	void SetIsCriticalHit(bool bInIsCriticalHit) {bIsCriticalHit = bInIsCriticalHit; }
-	void SetIsBlockedHit(bool bIsInBlockedHit) {bIsBlockedHit = bIsInBlockedHit;}
+	void SetIsCriticalHit(bool bInIsCriticalHit) { bIsCriticalHit = bInIsCriticalHit; }
+	void SetIsBlockedHit(bool bIsInBlockedHit) { bIsBlockedHit = bIsInBlockedHit;}
+	/* The Getter or Setter of member variable */
+
+	
 	/** Returns the actual struct used for serialization, subclasses must override this! */
 	virtual UScriptStruct* GetScriptStruct() const
 	{
@@ -44,8 +53,10 @@ protected:
 	
 	UPROPERTY();
 	bool bIsCriticalHit = false;
-};
+}; 
 
+/** type traits to cover the custom aspects of a script struct **/
+/* 告诉你 FAuraGameplayEffectContext 有哪些特征（存在于 TStructOpsTypeTraitsBase2 中）*/
 template<>
 struct TStructOpsTypeTraits<FAuraGameplayEffectContext> : public TStructOpsTypeTraitsBase2<FAuraGameplayEffectContext>
 {
