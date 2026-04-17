@@ -16,6 +16,7 @@ struct FAuraGameplayEffectContext : public FGameplayEffectContext
 public:
 	
 	/* The Getter or Setter of member variable */
+	// 常由 AuraAbilitySystemLibrary 嵌套调用
 	bool IsCriticalHit() const{ return bIsCriticalHit; }
 	bool IsBlockedHit() const{ return bIsBlockedHit; }
 
