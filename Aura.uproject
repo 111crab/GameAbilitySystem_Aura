@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.4",
+	"EngineAssociation": "5.8",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -30,12 +30,11 @@
 			"Enabled": true
 		},
 		{
-			"Name": "FlatNodes",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/b719437f3fb54c259b34227363df8cab"
+			"Name": "MotionWarping",
+			"Enabled": true
 		},
 		{
-			"Name": "MotionWarping",
+			"Name": "PCG",
 			"Enabled": true
 		}
 	]
