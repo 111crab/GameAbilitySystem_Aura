@@ -14,6 +14,7 @@ This document is the shared Unreal Engine project context for Codex, Claude, and
 **Target platforms:**
 - Windows desktop is the current assumed development target.
 - Other target platforms are TBD.
+**Skill system multiplayer direction:** First skill prototypes are ARPG-oriented and should be designed for multiplayer correctness. The initial validation target is local playable behavior first, then Listen Server / two-client checks for visible presentation, replicated state, and authoritative effects on other actors. Dedicated server support remains TBD.
 
 ## Module Structure
 
@@ -134,6 +135,5 @@ This document is the shared Unreal Engine project context for Codex, Claude, and
 
 - Confirm whether UE 5.8 is launcher build or source build.
 - Confirm target platforms beyond Windows.
-- Confirm whether multiplayer support is a hard requirement for the first skill system version.
 - Confirm whether future skill editor should be a custom asset editor, Editor Utility Widget, graph editor, or staged combination.
 - Confirm whether existing tutorial assets can be freely reused and redistributed in this project.

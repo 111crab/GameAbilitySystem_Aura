@@ -16,7 +16,8 @@
 - [x] 创建 Skill/MCP 目录。
 - [x] 创建当前 Aura 项目状态摘要。
 - [x] 审查当前 dirty 工作区，判断哪些内容应该先提交。
-- [ ] 评审 `Agent/UE_GAS_SkillGraph_Design_Document.md`，只把它作为参考，不直接照搬。
+- [x] 评审 `Agent/UE_GAS_SkillGraph_Design_Document.md`，只把它作为参考，不直接照搬。
+- [x] 明确后续正式代码需要学习型注释和中文实现文档。
 
 ## Phase 1 - 技能机制调研与分类
 
@@ -35,6 +36,19 @@
 - 连招、姿态、被动触发、反击。
 - 目标选择模式和确认流程。
 
+当前状态：
+- [x] 创建技能机制总目录 `Skill_Mechanic_Catalog.md`。
+- [x] 创建代表性技能组合池 `Representative_Skill_Portfolio.md`。
+- [x] 确认 V1-A 具体技能：火球术、复苏脉冲、烈焰领域、蓄力贯穿箭、三段裂刃、荆棘护盾。
+- [x] 确认 V1-A 技能逐个单独实现和验证。
+- [x] 创建 V1-A 技能实施顺序 `V1A_Implementation_Sequence.md`。
+- [x] 确认第一批偏 ARPG。
+- [x] 确认第一批 6 个原型。
+- [x] 确认第一批不做位移、召唤、陷阱。
+- [x] 确认第一批多人验证最低标准。
+- [x] 确认允许实施前做轻量资产盘点。
+- [x] 确认技能机制大类当前足够，后续如发现遗漏再增量补充。
+
 ## Phase 2 - GAS 运行时架构方案
 
 **目标：** 对比可行架构，并选定 V1 运行时模型。
@@ -49,6 +63,12 @@
 - 少量通用 GA 类 + DataAsset 配置。
 - 技能图/节点解释器。
 - 分阶段混合方案。
+
+当前状态：
+- [x] 创建 `GAS_Architecture_Options.md` 讨论稿。
+- [x] 用户确认 V1 采用“少量通用 GA + DataAsset + 原生机制片段”的克制混合方案。
+- [x] 用户确认顺序：先写 `Skill_Runtime_Model.md`，再做轻量资产盘点，再写第一份 Claude 实施 Prompt。
+- [ ] 创建 `Skill_Runtime_Model.md`。
 
 ## Phase 3 - 运行时原型实现
 
