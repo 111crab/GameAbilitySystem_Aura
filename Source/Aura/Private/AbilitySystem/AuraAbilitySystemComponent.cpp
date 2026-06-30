@@ -21,7 +21,7 @@ void UAuraAbilitySystemComponent::AddCharacterAbilities(const TArray<TSubclassOf
 		FGameplayAbilitySpec AbilitySpec = FGameplayAbilitySpec(AbilityClass,1); // 为 GA 创建 Spec
 		if (const UAuraGameplayAbility* AuraAbility = Cast<UAuraGameplayAbility>(AbilitySpec.Ability))  // 如果这个 Spec 对应的 GA 属于 AuraGA 类
 		{
-			AbilitySpec.DynamicAbilityTags.AddTag(AuraAbility->StartupInputTag); // 为 GA 建立 GA-Tag 映射
+			AbilitySpec.DynamicAbilityTags.AddTag(AuraAbility->StartupInputTag); // DynamicAbilityTags：这东西是 TagContainer，用于 GA 建立 GA-Tag 映射
 			
 			// TODO: 暂时理解为能被触发了，所以后续能在 GetActivatableAbilities 中找到
 			GiveAbility(AbilitySpec); 

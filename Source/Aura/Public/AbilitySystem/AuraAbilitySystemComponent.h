@@ -25,7 +25,7 @@ public:
 	FEffectAssetTags EffectAssetTags;
 
 	/**
-	 * 真正为角色添加初始 GA
+	 * 真正为角色添加初始 GA，通俗的说：就是设置角色可以使用哪些技能，放入一个待激活的技能序列。
 	 * @param StartupAbilities 来自于 Character 在编辑器中配置的 StartupAbilities-Array
 	 */
 	void AddCharacterAbilities(const TArray<TSubclassOf<UGameplayAbility>>& StartupAbilities);

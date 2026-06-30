@@ -187,7 +187,7 @@ void AAuraPlayerController::BeginPlay()
 	
 	
 	
-	//------光标设置------
+	//------光标样式和响应模式设置------
 	//显示光标
 	bShowMouseCursor = true;
 	//光标样式
@@ -209,7 +209,7 @@ void AAuraPlayerController::SetupInputComponent()
 
 	//CastChecked:检查并且强转，把普通的输入转成增强输入
 	UAuraInputComponent* AuraInputComponent = CastChecked<UAuraInputComponent>(InputComponent);
-	//绑定动作，只要MoveAction被持续触发，this Controller的 Move函数持续被回调。
+	//绑定动作，只要 MoveAction 被持续触发，this Controller的 Move函数持续被回调。
 	AuraInputComponent->BindAction(MoveAction,ETriggerEvent::Triggered,this, &AAuraPlayerController::Move);
 	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Started,this, &AAuraPlayerController::ShiftPressed);
 	AuraInputComponent->BindAction(ShiftAction, ETriggerEvent::Completed,this, &AAuraPlayerController::ShiftReleased);
