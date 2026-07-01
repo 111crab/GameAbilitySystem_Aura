@@ -23,18 +23,18 @@ void UTargetDataUnderMouse::Activate()
 	}
 	else // 不是本地控制，则监听 TargetData
 	{
+		// SpecHandle 和 ActivationPredictionKey 是委托 AbilityTargetDataSetDelegate 的传递参数，它们旨在唯一标识此次的 TargetData 是哪个 GA ，哪次请求
 		const FGameplayAbilitySpecHandle SpecHandle = GetAbilitySpecHandle();
 		const FPredictionKey ActivationPredictionKey = GetActivationPredictionKey();
-
-		// 因为服务端收到数据，和执行 Activate()中触发 AbilityTargetDataSetDelegate 绑定 CallBack 有先后，这个先后是无法确定的。而想触发 Delegate 必须要先绑定后收到数据
-		// 故而有以下的情况操作
-		// 若收到 Client 的消息，则调用 CallBack 函数
+		// 服务端绑定回调函数 OnTargetDataReplicatedCallback 到委托 AbilityTargetDataSetDelegate
 		AbilitySystemComponent.Get()->AbilityTargetDataSetDelegate(SpecHandle, ActivationPredictionKey).AddUObject(this, &UTargetDataUnderMouse::OnTargetDataReplicatedCallback);
-		
-		const bool bCalledDelegate = AbilitySystemComponent.Get()->CallReplicatedTargetDataDelegatesIfSet(SpecHandle, ActivationPredictionKey); // 判断是否已经调用过 AbilityTargetDataSetDelegate
+
+		// 正常流程：服务端需要绑定委托 -> 客户端 TargetData 到达 -> 回调函数。
+		// 但是绑定和客户端信息到达，这两个事件是异步的，无法确认顺序，所以需要下文控制
+		const bool bCalledDelegate = AbilitySystemComponent.Get()->CallReplicatedTargetDataDelegatesIfSet(SpecHandle, ActivationPredictionKey); // AbilityTargetDataSetDelegate 是否收到客户端的打包数据
 		if (!bCalledDelegate)
 		{
-			SetWaitingOnRemotePlayerData(); // 没调用过则等待
+			SetWaitingOnRemotePlayerData(); // 没收到过则等待
 		}
 	}
 }
@@ -44,17 +44,20 @@ void UTargetDataUnderMouse::SendMouseCursorData()
 	// PredictionKey 用于标识 Client 的每次操作请求和服务器的处理结果
 	// 这个作用域的一次性预测的 PredictionKey 压入当前 ASC
 	FScopedPredictionWindow ScopePrediction(AbilitySystemComponent.Get());
-	
+
+	// 获取并记录 FHitResult 数据
 	AAuraPlayerController* PC = Cast<AAuraPlayerController>(Ability->GetCurrentActorInfo()->PlayerController.Get());
 	FHitResult CursorHit;
 	PC->GetHitResultUnderCursor(ECC_Visibility, false, CursorHit);
 
-	
+	// 目的：层层创建，包装一个 FGameplayAbilityTargetDataHandle 类型的 DataHandle
+	// DataHandle 其实就是 TargetData
 	FGameplayAbilityTargetData_SingleTargetHit* Data = new FGameplayAbilityTargetData_SingleTargetHit();
 	Data->HitResult = CursorHit;
 	FGameplayAbilityTargetDataHandle DataHandle;
 	DataHandle.Add(Data);
-	
+
+	// 客户端发送数据给服务端的实际操作
 	AbilitySystemComponent->ServerSetReplicatedTargetData(GetAbilitySpecHandle(),
 		GetActivationPredictionKey(), // 这次 Ability 激活的唯一 Key
 		DataHandle, // GameplayAbilityTargetData 的句柄
@@ -65,6 +68,7 @@ void UTargetDataUnderMouse::SendMouseCursorData()
 	
 	if (ShouldBroadcastAbilityTaskDelegates()) // 并不是每次连续点击的请求都会被承认，只有被服务端确认过的才能广播
 	{
+		// 触发自定义委托，给订阅者使用。传递一个 TargetData
 		ValidData.Broadcast(DataHandle);
 	}
 	
@@ -73,11 +77,12 @@ void UTargetDataUnderMouse::SendMouseCursorData()
 void UTargetDataUnderMouse::OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle,
 	FGameplayTag ActivationTag)
 {
-	// 清楚特定 SpecHandle 和 PredictionKey 对应的缓存（初衷用于 ！bCalledDelegate 的情况）
+	// 清楚特定 SpecHandle 和 PredictionKey 对应的缓存（初衷用于 !bCalledDelegate 的情况）
 	AbilitySystemComponent->ConsumeClientReplicatedTargetData(GetAbilitySpecHandle(), GetActivationPredictionKey());
+	
 	if (ShouldBroadcastAbilityTaskDelegates()) 
 	{
-		// 收到了客户端的 TargetData，你也得广播给服务器端的 FMouseTargetDataSignature 执行，不然还是不同步
+		// 触发自定义委托，给订阅者使用。传递一个 TargetData
 		ValidData.Broadcast(DataHandle);
 	}
 }

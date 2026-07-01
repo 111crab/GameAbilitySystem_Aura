@@ -162,6 +162,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 	}
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute())
 	{
+		// IncomingDamage 是一个 MetaAttribute，用一个本地的记录，然后清零。不要长期占用。
 		const float LocalIncomingDamage = GetIncomingDamage();
 		SetIncomingDamage(0.f);
 

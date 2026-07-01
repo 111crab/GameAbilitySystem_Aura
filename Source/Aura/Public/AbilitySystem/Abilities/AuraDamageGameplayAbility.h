@@ -19,6 +19,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly);
 	TSubclassOf<UGameplayEffect> DamageEffectClass;
 
+	// Key：Damage 类型标签，Value：Damage 伤害数值
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	TMap<FGameplayTag, FScalableFloat> DamageTypes;
 };

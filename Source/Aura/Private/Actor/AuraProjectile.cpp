@@ -15,7 +15,7 @@
 AAuraProjectile::AAuraProjectile()
 {
 	PrimaryActorTick.bCanEverTick = false;
-	bReplicates = true; // 这个类可以被复制
+	bReplicates = true; // 允许服务端复制到客户端，不然生成的火球客户端看不到
 
 	
 	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));

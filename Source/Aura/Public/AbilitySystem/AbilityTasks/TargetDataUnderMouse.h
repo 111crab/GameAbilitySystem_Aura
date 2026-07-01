@@ -35,7 +35,7 @@ public:
 private:
 
 	/**
-	 * 当前 Task 的具体操作可写入，宏自调用
+	 * 当前 Task 的具体逻辑可写入，UE 内部会自己调用
 	 */
 	virtual void Activate() override;
 
@@ -44,5 +44,6 @@ private:
 	 */
 	void SendMouseCursorData();
 
+	// 这个是一个回调函数，对应的委托是：AbilityTargetDataSetDelegate，这个是服务器等待客户端传 TargetData
 	void OnTargetDataReplicatedCallback(const FGameplayAbilityTargetDataHandle& DataHandle, FGameplayTag ActivationTag);
 };

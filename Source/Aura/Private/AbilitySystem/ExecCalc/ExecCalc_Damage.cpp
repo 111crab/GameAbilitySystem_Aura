@@ -84,9 +84,12 @@ UExecCalc_Damage::UExecCalc_Damage()
 	RelevantAttributesToCapture.Add(DamageStatics().PhysicalResistanceDef);
 }
 
+// ExecutionParams：输入包：这次 GE 执行时，GAS 交给 ExecCalc 的全部上下文
+// OutExecutionOutput：输出包：ExecCalc 算完后，把结果交回 GAS
 void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
 	FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
 {
+	
 	const UAbilitySystemComponent *SourceASC = ExecutionParams.GetSourceAbilitySystemComponent();
 	const UAbilitySystemComponent *TargetASC = ExecutionParams.GetTargetAbilitySystemComponent();
 
@@ -100,6 +103,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 
 	const FGameplayTagContainer* SourceTags = Spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = Spec.CapturedTargetTags.GetAggregatedTags();
+	// EvaluationParams 辅助属性计算的东西，和 ExecutionParams 庞大上下文分离，因为不同的 GA 的不同源目标，TAG 不同，计算规矩也不同。所以设计这个。
 	FAggregatorEvaluateParameters EvaluationParams;
 	EvaluationParams.SourceTags = SourceTags;
 	EvaluationParams.TargetTags = TargetTags;
@@ -127,7 +131,7 @@ void UExecCalc_Damage::Execute_Implementation(const FGameplayEffectCustomExecuti
 		Damage += DamageTypesValue;
 	}
 	
-	// Capture BlockChance on Target,and determine if there was a successful Block
+	// Capture BlockChance on Target, and determine if there was a successful Block
 	float TargetBlockChance = 0.f;
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DamageStatics().BlockChanceDef, EvaluationParams,TargetBlockChance);
 	TargetBlockChance = FMath::Max<float>(0.f, TargetBlockChance);
