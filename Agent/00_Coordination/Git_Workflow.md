@@ -1,6 +1,6 @@
 # Git 工作流建议
 
-*最后更新：2026-06-26*
+*最后更新：2026-07-07*
 
 ## 当前观察
 
@@ -52,6 +52,24 @@
 - `docs: establish agent coordination workspace`
 - `audit: summarize current Aura GAS baseline`
 - `gas: add skill definition data asset`
+
+## 版本与 Tag 规则
+
+`commit` 用来保存每一批有意义的修改；`tag` 用来给稳定基线或阶段成果起一个可长期引用的名字。
+
+建议使用带说明的 annotated tag：
+
+```bash
+git tag -a tutorial-baseline-before-v1-skill-runtime -m "Tutorial baseline before V1 skill runtime implementation"
+git push origin tutorial-baseline-before-v1-skill-runtime
+```
+
+当前已创建并推送：
+- `tutorial-baseline-before-v1-skill-runtime`：V1 技能运行时代码改写前的教程基线。
+
+后续建议：
+- V1-A 全部 6 个技能完成并通过验证后，再创建类似 `v1-a-skill-runtime` 的阶段 tag。
+- 如果以后要发布 GitHub Releases，可以基于 tag 创建 Release，并补充中文/英文 release notes。
 
 ## 单个任务建议流程
 

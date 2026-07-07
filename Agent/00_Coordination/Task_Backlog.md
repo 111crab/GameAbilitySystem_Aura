@@ -1,6 +1,6 @@
 # 任务池
 
-*最后更新：2026-06-26*
+*最后更新：2026-07-07*
 
 ## Phase 0 - 协作与项目基线
 
@@ -68,7 +68,11 @@
 - [x] 创建 `GAS_Architecture_Options.md` 讨论稿。
 - [x] 用户确认 V1 采用“少量通用 GA + DataAsset + 原生机制片段”的克制混合方案。
 - [x] 用户确认顺序：先写 `Skill_Runtime_Model.md`，再做轻量资产盘点，再写第一份 Claude 实施 Prompt。
-- [ ] 创建 `Skill_Runtime_Model.md`。
+- [x] 创建 `Skill_Runtime_Model.md` 讨论稿。
+- [x] 用户审阅并确认 `Skill_Runtime_Model.md`。
+- [x] 创建并推送 Git tag `tutorial-baseline-before-v1-skill-runtime`，保存 V1 技能运行时代码改写前的教程基线。
+- [ ] 盘点火球术最小闭环可能复用的教程资产。
+- [ ] 编写第一份 Claude 实施 Prompt：火球术最小闭环。
 
 ## Phase 3 - 运行时原型实现
 

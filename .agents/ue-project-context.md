@@ -1,6 +1,6 @@
 # UE Project Context
 
-*Last updated: 2026-06-26*
+*Last updated: 2026-07-07*
 
 This document is the shared Unreal Engine project context for Codex, Claude, and UE-related skills. It is a living V1 auto-drafted from the current repository. Unknown or unsettled items are marked as `TBD` instead of guessed.
 
@@ -15,6 +15,9 @@ This document is the shared Unreal Engine project context for Codex, Claude, and
 - Windows desktop is the current assumed development target.
 - Other target platforms are TBD.
 **Skill system multiplayer direction:** First skill prototypes are ARPG-oriented and should be designed for multiplayer correctness. The initial validation target is local playable behavior first, then Listen Server / two-client checks for visible presentation, replicated state, and authoritative effects on other actors. Dedicated server support remains TBD.
+**Confirmed V1 skill runtime direction:** Use a restrained hybrid model: a small number of generic GameplayAbility classes, `UAuraSkillDefinition` data assets, and native C++ mechanism fragments. The primary V1 path is `UAuraSkillDefinition + UAuraConfiguredActiveAbility + AbilitySpec.SourceObject`. Keep the tutorial-era ability path during V1-A and add the configured-skill path in parallel.
+**Initial V1-A implementation scope:** The first implementation prompt should only build the minimal Fireball loop, not the full six-skill V1-A feature set.
+**Asset preference:** For each concrete skill, inspect `Content/Assets` first for reusable tutorial animation/VFX/audio/material assets. Prefer soft references in skill definitions where practical; document any temporary hard-reference or synchronous-load compromise.
 
 ## Module Structure
 
@@ -57,12 +60,14 @@ This document is the shared Unreal Engine project context for Codex, Claude, and
 **UObject pointer style:** Existing code often uses `TObjectPtr` for reflected UObject members. Continue this direction.  
 **Assertion style:** Existing code uses `check()` in several GAS setup paths. Broader assertion policy is TBD.  
 **Comments and encoding:** Some Chinese comments currently display as mojibake in shell output. Before broad edits, verify file encoding and avoid accidental re-encoding churn.
+**Learning-oriented comments:** Formal code changes should explain non-obvious GAS lifecycle, authority/replication, configuration, and design tradeoffs. If the explanation would make code noisy, put it in a Chinese Markdown document and reference it from the implementation report.
 
 **Additional rules for agents:**
 - Do not move editor-only dependencies into the Runtime module.
 - Put future custom editor tooling in an Editor module or editor plugin.
 - Keep Runtime gameplay code independent from editor-only UI/tooling.
 - Do not rewrite tutorial-era code broadly without an approved migration plan.
+- Directly adding `.h` / `.cpp` files is allowed. Ensure correct `Public`/`Private` placement, `.generated.h` ordering, reflected UE macros, and `Aura.Build.cs` dependency updates.
 
 ## Subsystems in Use
 
@@ -127,6 +132,7 @@ This document is the shared Unreal Engine project context for Codex, Claude, and
 **Human project owner:** User.  
 **Agent roles:** Codex plans/reviews; Claude implements specific tasks and writes reports.  
 **Source control:** Git. Current branch observed as `main` tracking `origin/main`.  
+**Baseline tag:** `tutorial-baseline-before-v1-skill-runtime` marks the tutorial baseline before V1 skill runtime implementation.
 **Branching strategy:** Proposed in `Agent/00_Coordination/Git_Workflow.md`; not yet finalized.  
 **Code review:** Planned: Claude implementation -> report -> Codex review -> user approval.  
 **Documentation standards:** Planning, decisions, prompts, and reports live under `Agent/`.

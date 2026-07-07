@@ -23,7 +23,7 @@
    对比不同 GAS 架构方案，并给出 V1 推荐方向。
 
 7. `Skill_Runtime_Model.md`  
-   选定方案后，写运行时模型。
+   已确认方案 C 后，拆出配置资产、通用 GA、原生机制片段、运行时流程和 V1-A 技能映射。
 
 8. `Implementation_Roadmap.md`  
    把设计拆成 Claude 可以实施的小任务。
