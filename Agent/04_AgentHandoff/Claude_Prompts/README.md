@@ -13,3 +13,6 @@ Prompt 应尽量具体，避免 Claude 擅自扩大范围：
 - 预期修改。
 - 验证步骤。
 - 必须输出的报告路径。
+
+当前 Prompt：
+- `2026-07-07_Fireball_Minimal_Configured_Runtime.md`：火球术最小配置化运行时，待用户确认后交给 Claude 执行。

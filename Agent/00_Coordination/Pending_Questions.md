@@ -20,7 +20,7 @@
 
 ## 当前批次：Phase 2 运行时模型
 
-状态：已确认，可进入轻量资产盘点与第一份 Claude 实施 Prompt。
+状态：运行时模型、火球术资产盘点和第一份 Claude 实施 Prompt 已完成；等待用户确认是否进入 C++ 实施。
 
 已确认：
 - V1 采用“克制版方案 C”：少量通用 GA + DataAsset 配置 + 少量原生机制片段，暂不做完整 SkillGraph / IR / VM。
@@ -29,13 +29,16 @@
 - 认可第一份 Claude 实施只围绕火球术最小闭环，不一次实现全部 V1-A 机制。
 - 旧教程代码已通过 Git tag `tutorial-baseline-before-v1-skill-runtime` 保存为重构前基线。
 - 具体技能实施前允许做轻量资产盘点；资产优先从 `Content/Assets` 寻找，不够再考虑官方内容、简单占位或让用户补充。
+- 火球术最小闭环资产盘点已写入 `Agent/02_SkillSystem/Fireball_Minimal_Asset_Inventory.md`。
+- 第一份 Claude 实施 Prompt 已写入 `Agent/04_AgentHandoff/Claude_Prompts/2026-07-07_Fireball_Minimal_Configured_Runtime.md`。
 
-当前待用户确认：无。
+当前待用户确认：
+1. **是否批准 Claude 按 `Agent/04_AgentHandoff/Claude_Prompts/2026-07-07_Fireball_Minimal_Configured_Runtime.md` 执行火球术最小配置化运行时实现？**
 
 下一步：
-1. 盘点火球术最小闭环可能复用的教程资产。
-2. 编写第一份 Claude 实施 Prompt，范围限定为火球术最小闭环。
-3. Prompt 需显式要求学习型注释、中文实现说明、Build.cs/文件路径说明，以及本地与 Listen Server 验证步骤。
+1. 用户确认 Prompt。
+2. Claude 执行代码/资产实施，并写实施报告。
+3. Codex 审查 Claude 产出，再交给用户确认。
 
 ## 已确认但需要持续遵守
 

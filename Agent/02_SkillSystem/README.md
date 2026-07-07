@@ -28,4 +28,7 @@
 8. `Implementation_Roadmap.md`  
    把设计拆成 Claude 可以实施的小任务。
 
+9. `Fireball_Minimal_Asset_Inventory.md`
+   V1-A 第一个技能“火球术”的代码链路、资产复用和第一版配置建议。
+
 本目录里的文档需要用户审核，优先使用中文。

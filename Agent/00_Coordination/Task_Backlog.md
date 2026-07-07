@@ -71,8 +71,9 @@
 - [x] 创建 `Skill_Runtime_Model.md` 讨论稿。
 - [x] 用户审阅并确认 `Skill_Runtime_Model.md`。
 - [x] 创建并推送 Git tag `tutorial-baseline-before-v1-skill-runtime`，保存 V1 技能运行时代码改写前的教程基线。
-- [ ] 盘点火球术最小闭环可能复用的教程资产。
-- [ ] 编写第一份 Claude 实施 Prompt：火球术最小闭环。
+- [x] 盘点火球术最小闭环可能复用的教程资产。
+- [x] 编写第一份 Claude 实施 Prompt：火球术最小闭环。
+- [ ] 用户确认是否让 Claude 按第一份 Prompt 执行 C++ 实施。
 
 ## Phase 3 - 运行时原型实现
 
