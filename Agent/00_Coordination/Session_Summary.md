@@ -41,17 +41,18 @@ Aura 要从 UE C++ / GAS 教程项目，逐步演进为一个可扩展、数据�
 - 可以直接新增 `.h` / `.cpp` 文件，不强制通过 UE 编辑器添加类向导；但必须遵守模块、`.generated.h`、Build.cs 依赖和刷新/重编译规则。
 - 已完成火球术最小闭环资产与代码盘点：`Agent/02_SkillSystem/Fireball_Minimal_Asset_Inventory.md`。
 - 已写好第一份 Claude 实施 Prompt：`Agent/04_AgentHandoff/Claude_Prompts/2026-07-07_Fireball_Minimal_Configured_Runtime.md`。
+- 用户已批准 Claude 按第一份 Prompt 执行火球术最小配置化运行时实现。
 
 ## 当前推荐路线
 
 1. Phase 1 已收束：技能机制大类、代表技能池、V1-A 技能顺序已经确认。
 2. Phase 2 运行时模型已确认：克制版方案 C + `UAuraSkillDefinition` + 通用 GA + SourceObject。
 3. 火球术资产盘点已完成，第一份 Claude Prompt 已完成。
-4. 下一步等待用户确认是否让 Claude 按 Prompt 执行 C++ 实施。
+4. 下一步等待 Claude 执行 Prompt 并输出实施报告。
 5. 技能编辑器放在运行时模型稳定之后设计。
 
 ## 当前待确认
 
-当前待确认：是否批准 Claude 按 `Agent/04_AgentHandoff/Claude_Prompts/2026-07-07_Fireball_Minimal_Configured_Runtime.md` 执行火球术最小配置化运行时实现。
+当前无待确认问题。下一步等待 Claude 的实施报告，报告路径应为 `Agent/04_AgentHandoff/Claude_Reports/2026-07-07_Fireball_Minimal_Configured_Runtime_Report.md`。
 
 见 `Agent/00_Coordination/Pending_Questions.md`。
