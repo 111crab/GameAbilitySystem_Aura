@@ -26,7 +26,9 @@ void UTargetDataUnderMouse::Activate()
 		// SpecHandle 和 ActivationPredictionKey 是委托 AbilityTargetDataSetDelegate 的传递参数，它们旨在唯一标识此次的 TargetData 是哪个 GA ，哪次请求
 		const FGameplayAbilitySpecHandle SpecHandle = GetAbilitySpecHandle();
 		const FPredictionKey ActivationPredictionKey = GetActivationPredictionKey();
-		// 服务端绑定回调函数 OnTargetDataReplicatedCallback 到委托 AbilityTargetDataSetDelegate
+		
+		// 服务端绑定 [CallBackFunc]OnTargetDataReplicatedCallback 到 Delegate：AbilityTargetDataSetDelegate
+		// [Delegate]AbilityTargetDataSetDelegate::Broadcast 时机：TargetData 送达服务端
 		AbilitySystemComponent.Get()->AbilityTargetDataSetDelegate(SpecHandle, ActivationPredictionKey).AddUObject(this, &UTargetDataUnderMouse::OnTargetDataReplicatedCallback);
 
 		// 正常流程：服务端需要绑定委托 -> 客户端 TargetData 到达 -> 回调函数。

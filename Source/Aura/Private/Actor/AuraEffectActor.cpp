@@ -61,7 +61,7 @@ void AAuraEffectActor::ApplyEffectToTarget(AActor* TargetActor, TSubclassOf<UGam
 	const FActiveGameplayEffectHandle ActiveGameplayEffectHandle =  TargetASC->ApplyGameplayEffectSpecToSelf(*EffectSpecHandle.Data.Get()); // 这里需要一个 const引用 作为参数。从 EffectSpecHandle 的 wrap 中取 Data（TSharePtr也是一种 wrap） 用 get（）取裸指针。再 ‘*’ 解引用符合入参类型。
 
 	// 3. 存储 ActiveGameplayEffectHandle 句柄，为移除无限效果做准备。
-	const bool bIsInfinite = EffectSpecHandle.Data.Get()->Def->DurationPolicy == EGameplayEffectDurationType::Infinite; // 看当前GE是否为 Infinite 类型
+	const bool bIsInfinite = EffectSpecHandle.Data.Get()->Def->DurationPolicy == EGameplayEffectDurationType::Infinite; // 看当前 GE 是否为 Infinite 类型
 	if (bIsInfinite && InfiniteEffectRemovalPolicy == EEffectRemovalPolicy::RemoveOnEndOverlap) // 如果是 Infinite 类型，而且也打算移除。（不想移除存个 P）
 	{
 		ActiveEffectHandles.Add(ActiveGameplayEffectHandle , TargetASC); // 存储映射（自定义映射）

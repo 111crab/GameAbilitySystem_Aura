@@ -19,6 +19,10 @@ AAuraEnemy::AAuraEnemy()
 	GetMesh()->SetCollisionResponseToChannel(ECC_Visibility,ECR_Block);
 	AbilitySystemComponent = CreateDefaultSubobject<UAuraAbilitySystemComponent>("AbilitySystemComponent");
 	AbilitySystemComponent->SetIsReplicated(true);
+	
+	// Minimal 代表的复制模式：
+	// 不完整复制 ActiveGameplayEffects 细节给所有客户端；
+	// 主要复制必要的 GameplayTags / GameplayCues 等表现所需信息。
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Minimal);
 	
 
@@ -31,8 +35,9 @@ AAuraEnemy::AAuraEnemy()
 
 void AAuraEnemy::HitReactTagChanged(const FGameplayTag CallbackTag, int32 NewCount)
 {
+	// 监听这个 TAG 的数量有几个，大于 0 就是有了。
 	bHitReacting = NewCount > 0;
-	
+	// 受击减速
 	GetCharacterMovement()->MaxWalkSpeed = bHitReacting ? 0.f : BaseWalkSpeed;
 }
 
@@ -69,7 +74,8 @@ void AAuraEnemy::BeginPlay()
 				OnMaxHealthChanged.Broadcast(Data.NewValue);
 			}
 		);
-		
+
+		// 添加对一个 TAG：Effects_HitReact 的状态监听，负责监听 ASC 是否被赋予或者移除这个 TAG，然后回调
 		AbilitySystemComponent->RegisterGameplayTagEvent(FAuraGameplayTags::Get().Effects_HitReact, EGameplayTagEventType::NewOrRemoved).AddUObject(
 			this,
 			&AAuraEnemy::HitReactTagChanged

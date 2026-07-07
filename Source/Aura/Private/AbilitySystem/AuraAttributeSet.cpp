@@ -42,12 +42,12 @@ UAuraAttributeSet::UAuraAttributeSet()
 }
 
 
-//Unreal Engine 的反射系统用于定义属性同步生命周期的核心函数。
+// Unreal Engine 的反射系统用于定义属性同步生命周期的核心函数。
 void UAuraAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	
-	//用于注册属性的同步行为  param(当前属性集类，属性名称，同步条件，通知方式)
+	// 用于注册属性的同步行为  param(当前属性集类，属性名称，同步条件，通知方式)
 	// Primary Attributes
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Strength, COND_None , REPNOTIFY_Always);
 	DOREPLIFETIME_CONDITION_NOTIFY(UAuraAttributeSet, Intelligence, COND_None , REPNOTIFY_Always);
@@ -194,6 +194,7 @@ void UAuraAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectMo
 		}
 	}
 }
+
 void UAuraAttributeSet::ShowFloatingText(const FEffectProperties& Props, float Damage,bool bBlockedHit, bool bCriticalHit) const
 {
 	if (Props.SourceCharacter != Props.TargetCharacter) // 如果不是自伤伤害
